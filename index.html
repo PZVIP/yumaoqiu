@@ -320,8 +320,6 @@
         display: block;
         width: 100%;
         height: auto;
-        object-fit: none;
-        object-position: 0 0;
         background: #fff;
       }
 
@@ -1447,13 +1445,18 @@
         const receiptQr = clone.querySelector(".receipt-qr");
         const shouldIncludeQr = includeQrInImage.checked;
         if (receiptQr && shouldIncludeQr) {
-          receiptQr.src = uploadedQrDataUrl || receiptQr.src;
+          const qrSource = uploadedQrDataUrl || receiptQr.src;
+          await readImage(qrSource);
           const qrCard = document.createElement("section");
           qrCard.className = "generated-qr-card";
           const qrBox = document.createElement("div");
           qrBox.className = "generated-qr-box";
-          const qrImage = receiptQr.cloneNode(true);
-          qrImage.removeAttribute("class");
+          const qrImage = document.createElement("img");
+          qrImage.src = qrSource;
+          qrImage.alt = "收款二维码";
+          qrImage.style.display = "block";
+          qrImage.style.width = "100%";
+          qrImage.style.height = "auto";
           qrBox.appendChild(qrImage);
           const randomBetween = (min, max) => min + Math.random() * (max - min);
           ["left", "right"].forEach((side) => {
