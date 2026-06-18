@@ -1,0 +1,354 @@
+:root {
+  color-scheme: light;
+  --accent: #10b96a;
+  --accent-dark: #07884d;
+  --ink: #17201c;
+  --muted: #68716d;
+  --line: #dfe6e2;
+  --surface: #ffffff;
+  --page: #f4f7f5;
+  --soft: #eef6f1;
+  --warm: #f4b44d;
+  --danger: #cf3f3f;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--page);
+  color: var(--ink);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  width: min(100%, 480px);
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--page);
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+.top-panel {
+  min-height: 240px;
+  padding: 28px 20px 70px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.22), transparent 26%),
+    linear-gradient(145deg, #16c976 0%, #0ca65c 58%, #087747 100%);
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.brand-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+h1 {
+  margin: 0;
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.total-block {
+  margin-top: 22px;
+  text-align: center;
+}
+
+.total-label,
+.total-note {
+  display: block;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 15px;
+}
+
+#mainAmount {
+  display: block;
+  min-height: 76px;
+  margin-top: 2px;
+  font-size: 56px;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.content-panel {
+  margin: -42px 14px 0;
+  display: grid;
+  gap: 10px;
+}
+
+.mode-switch,
+.fee-form,
+.summary-grid,
+.actions-row {
+  border: 1px solid rgba(16, 185, 106, 0.09);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 12px 32px rgba(21, 50, 35, 0.08);
+}
+
+.mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 6px;
+}
+
+.mode-button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.mode-button.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.fee-form {
+  overflow: hidden;
+}
+
+.field-row {
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.field-row:last-child {
+  border-bottom: 0;
+}
+
+.field-row > span:first-child {
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.input-unit {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.input-unit.full input {
+  max-width: 100%;
+  text-align: right;
+}
+
+input,
+select {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  color: var(--ink);
+  background: transparent;
+  text-align: right;
+  font-weight: 700;
+}
+
+input[type="number"] {
+  max-width: 110px;
+}
+
+select {
+  min-height: 38px;
+  color: var(--accent-dark);
+}
+
+em {
+  color: var(--muted);
+  font-style: normal;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.summary-item {
+  min-height: 98px;
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  padding: 14px 10px;
+  border-right: 1px solid var(--line);
+  text-align: center;
+}
+
+.summary-item:last-child {
+  border-right: 0;
+}
+
+.summary-item span,
+.summary-item small {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.summary-item strong {
+  min-height: 24px;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.summary-item.total strong {
+  color: var(--accent-dark);
+}
+
+.actions-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 8px;
+  padding: 10px;
+}
+
+.primary-action,
+.secondary-action {
+  min-height: 44px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 14px;
+  font-weight: 800;
+}
+
+.primary-action {
+  background: var(--accent);
+  color: #fff;
+}
+
+.primary-action:active,
+.mode-button.active:active {
+  background: var(--accent-dark);
+}
+
+.secondary-action {
+  background: var(--soft);
+  color: var(--accent-dark);
+}
+
+dialog {
+  width: min(92vw, 440px);
+  border: 0;
+  border-radius: 8px;
+  padding: 0;
+  background: transparent;
+}
+
+dialog::backdrop {
+  background: rgba(12, 18, 15, 0.42);
+}
+
+.sheet,
+.receipt-sheet {
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.2);
+}
+
+.sheet-title {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sheet-title strong {
+  font-size: 17px;
+}
+
+.icon-button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.sheet-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.receipt-sheet {
+  padding-bottom: 0;
+}
+
+#receiptImage {
+  display: block;
+  width: calc(100% - 24px);
+  margin: 12px auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+}
+
+@media (max-width: 380px) {
+  .field-row {
+    grid-template-columns: 92px minmax(0, 1fr);
+    padding: 0 14px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  #mainAmount {
+    font-size: 48px;
+  }
+
+  .actions-row {
+    grid-template-columns: 1fr;
+  }
+}
