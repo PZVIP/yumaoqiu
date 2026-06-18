@@ -1016,6 +1016,12 @@
             </div>
           </div>
           <label class="settings-row">
+            <span>默认勾选收款码</span>
+            <span class="settings-input-wrap">
+              <input id="defaultIncludeQr" type="checkbox" />
+            </span>
+          </label>
+          <label class="settings-row">
             <span>默认小时数</span>
             <span class="settings-input-wrap">
               <input class="settings-input" id="defaultCourtCount" type="number" min="0" max="999" step="1" />
@@ -1140,6 +1146,7 @@
         tubePrice: document.getElementById("defaultTubePrice"),
         maleCount: document.getElementById("defaultMaleCount"),
         femaleCount: document.getElementById("defaultFemaleCount"),
+        includeQr: document.getElementById("defaultIncludeQr"),
       };
       const defaultModeButtons = {
         equal: document.getElementById("defaultEqualModeBtn"),
@@ -1202,6 +1209,7 @@
             maleCount: validDefaultValue(parsed.maleCount),
             femaleCount: validDefaultValue(parsed.femaleCount),
             splitMode: validSplitMode(parsed.splitMode),
+            includeQr: parsed.includeQr === true,
           };
         } catch (error) {
           return null;
@@ -1263,6 +1271,7 @@
         modeButtons.half.classList.toggle("active", splitMode === "half");
 
         fields.clubTitle.textContent = defaults.clubTitle || originalClubTitle;
+        includeQrInImage.checked = defaults.includeQr === true;
 
         ["courtCount", "hourlyPrice", "tubePrice", "maleCount", "femaleCount"].forEach((key) => {
           if (defaults[key] !== undefined) {
@@ -1278,6 +1287,7 @@
         defaultFields.tubePrice.value = fields.tubePrice.value;
         defaultFields.maleCount.value = fields.maleCount.value;
         defaultFields.femaleCount.value = fields.femaleCount.value;
+        defaultFields.includeQr.checked = includeQrInImage.checked;
         defaultModeButtons.equal.classList.toggle("active", defaultSplitMode === "equal");
         defaultModeButtons.half.classList.toggle("active", defaultSplitMode === "half");
       }
@@ -1308,6 +1318,7 @@
           maleCount: validDefaultValue(defaultFields.maleCount.value),
           femaleCount: validDefaultValue(defaultFields.femaleCount.value),
           splitMode: defaultSplitMode,
+          includeQr: defaultFields.includeQr.checked,
         };
 
         const hasInvalidValue = ["courtCount", "hourlyPrice", "tubePrice", "maleCount", "femaleCount"].some((key) => {
@@ -1327,6 +1338,7 @@
         fields.tubePrice.value = valueForPage(defaults.tubePrice);
         fields.maleCount.value = valueForPage(defaults.maleCount);
         fields.femaleCount.value = valueForPage(defaults.femaleCount);
+        includeQrInImage.checked = defaults.includeQr;
         calculate();
         closeSettings();
       }
