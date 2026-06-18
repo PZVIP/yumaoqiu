@@ -1449,6 +1449,7 @@
         
         const width = page.offsetWidth;
         const clone = page.cloneNode(true);
+        let qrDrawInfo = null;
         clone.classList.add("capture-source");
         // 关键：移除克隆节点的最小高度和底部间距，确保紧贴内容
         clone.style.minHeight = "auto";
@@ -1474,13 +1475,7 @@
           qrCard.className = "generated-qr-card";
           const qrBox = document.createElement("div");
           qrBox.className = "generated-qr-box";
-          const qrImage = document.createElement("img");
-          qrImage.src = qrSource;
-          qrImage.alt = "收款二维码";
-          qrImage.style.display = "block";
-          qrImage.style.width = "100%";
-          qrImage.style.height = "auto";
-          qrBox.appendChild(qrImage);
+          qrBox.dataset.drawQr = "receipt";
           const randomBetween = (min, max) => min + Math.random() * (max - min);
           ["left", "right"].forEach((side) => {
             Array.from({ length: 10 }).forEach((_, index) => {
@@ -1530,6 +1525,19 @@
         wrapper.appendChild(clone);
         document.body.appendChild(wrapper);
 
+        const qrBoxForDraw = clone.querySelector('[data-draw-qr="receipt"]');
+        if (qrBoxForDraw && uploadedQrDataUrl) {
+          const pageRect = clone.getBoundingClientRect();
+          const qrRect = qrBoxForDraw.getBoundingClientRect();
+          qrDrawInfo = {
+            src: uploadedQrDataUrl,
+            x: qrRect.left - pageRect.left,
+            y: qrRect.top - pageRect.top,
+            width: qrRect.width,
+            height: qrRect.height,
+          };
+        }
+
         // 使用 getBoundingClientRect 获取精确的内容高度
         const contentHeight = clone.getBoundingClientRect().height;
         const height = Math.ceil(contentHeight);
@@ -1565,6 +1573,20 @@
         ctx.fillRect(0, 0, width, height);
         ctx.drawImage(image, 0, 0, width, height);
 
+        if (qrDrawInfo) {
+          const qrImage = await readDrawableImage(qrDrawInfo.src);
+          if (!qrImage) {
+            throw new Error("收款二维码加载失败，请重新上传二维码");
+          }
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(qrDrawInfo.x, qrDrawInfo.y, qrDrawInfo.width, qrDrawInfo.height);
+          ctx.clip();
+          const drawHeight = qrDrawInfo.width * (qrImage.naturalHeight / qrImage.naturalWidth);
+          ctx.drawImage(qrImage, qrDrawInfo.x, qrDrawInfo.y, qrDrawInfo.width, drawHeight);
+          ctx.restore();
+        }
+
         // 4. 处理导出
         try {
           const dataUrl = canvas.toDataURL("image/png");
@@ -1587,6 +1609,24 @@
           image.onerror = () => resolve(null);
           image.src = src;
         });
+      }
+
+      async function readDrawableImage(src, retries = 4) {
+        for (let attempt = 0; attempt < retries; attempt += 1) {
+          const image = await readImage(src);
+          if (image && image.naturalWidth > 0 && image.naturalHeight > 0) {
+            if (image.decode) {
+              try {
+                await image.decode();
+              } catch (error) {
+                // Some browsers resolve onload but reject decode for data URLs; dimensions are enough.
+              }
+            }
+            return image;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+        return null;
       }
 
 
