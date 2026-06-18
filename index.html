@@ -1053,6 +1053,7 @@
       let defaultSplitMode = "half";
       let uploadedQrDataUrl = "";
       const defaultStorageKey = "badmintonReceiptDefaults";
+      const qrStorageKey = "badmintonReceiptQrImage";
       const originalClubTitle = fields.clubTitle.textContent;
 
       function validTitleValue(value) {
@@ -1118,6 +1119,41 @@
           // 微信环境下 localStorage 通常可用；失败时仍保留 cookie 兜底。
         }
         document.cookie = `${defaultStorageKey}=${encodeURIComponent(payload)}; max-age=31536000; path=/; SameSite=Lax`;
+      }
+
+      function saveUploadedQr(dataUrl) {
+        try {
+          if (dataUrl) {
+            localStorage.setItem(qrStorageKey, dataUrl);
+          } else {
+            localStorage.removeItem(qrStorageKey);
+          }
+        } catch (error) {
+          alert("收款码图片较大，浏览器本地缓存失败。可以换一张更小的二维码图片。");
+        }
+      }
+
+      function applyUploadedQr(dataUrl) {
+        uploadedQrDataUrl = dataUrl || "";
+        if (uploadedQrDataUrl) {
+          qrPreviewImage.src = uploadedQrDataUrl;
+          qrUploadCard.classList.add("has-image");
+          qrUploadStatus.textContent = "已上传，生成图片会使用这个收款码";
+        } else {
+          qrPreviewImage.removeAttribute("src");
+          qrUploadCard.classList.remove("has-image");
+          qrUploadStatus.textContent = "未上传时，生成图片沿用默认二维码";
+        }
+      }
+
+      function applySavedQr() {
+        let dataUrl = "";
+        try {
+          dataUrl = localStorage.getItem(qrStorageKey) || "";
+        } catch (error) {
+          dataUrl = "";
+        }
+        applyUploadedQr(dataUrl);
       }
 
       function applySavedDefaults() {
@@ -1277,18 +1313,15 @@
         }
 
         uploadedQrDataUrl = await readFileAsDataUrl(file);
-        qrPreviewImage.src = uploadedQrDataUrl;
-        qrUploadCard.classList.add("has-image");
-        qrUploadStatus.textContent = "已上传，生成图片会使用这个收款码";
+        applyUploadedQr(uploadedQrDataUrl);
+        saveUploadedQr(uploadedQrDataUrl);
         if (typeof handleResize === 'function') handleResize();
       }
 
       function clearUploadedQr() {
-        uploadedQrDataUrl = "";
-        qrPreviewImage.removeAttribute("src");
         qrFileInput.value = "";
-        qrUploadCard.classList.remove("has-image");
-        qrUploadStatus.textContent = "未上传时，生成图片沿用默认二维码";
+        applyUploadedQr("");
+        saveUploadedQr("");
         if (typeof handleResize === 'function') handleResize();
       }
 
@@ -1311,6 +1344,7 @@
       });
 
       applySavedDefaults();
+      applySavedQr();
       calculate();
 
       async function generateReceiptImage() {
