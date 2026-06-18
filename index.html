@@ -302,10 +302,11 @@
         text-align: center;
         box-shadow: 0 10px 30px rgba(32, 38, 46, 0.06);
         overflow: hidden;
+        position: relative;
       }
 
       .generated-qr-box {
-        width: 55.55%;
+        width: 66.666%;
         min-width: 160px;
         aspect-ratio: 825 / 880;
         margin: 0 auto;
@@ -318,10 +319,25 @@
       .generated-qr-box img {
         display: block;
         width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center;
+        height: auto;
+        object-fit: none;
+        object-position: 0 0;
         background: #fff;
+      }
+
+      .qr-emoji {
+        position: absolute;
+        z-index: 0;
+        font-size: 18px;
+        opacity: 0.72;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .generated-qr-box {
+        position: relative;
+        z-index: 1;
       }
 
       .qr-upload-card {
@@ -1439,6 +1455,23 @@
           const qrImage = receiptQr.cloneNode(true);
           qrImage.removeAttribute("class");
           qrBox.appendChild(qrImage);
+          const emojiPositions = [
+            { left: "18px", top: "18px", rotate: "-22deg" },
+            { left: "34px", top: "58%", rotate: "18deg" },
+            { right: "20px", top: "30px", rotate: "26deg" },
+            { right: "36px", top: "66%", rotate: "-16deg" },
+          ];
+          emojiPositions
+            .sort(() => Math.random() - 0.5)
+            .forEach((position) => {
+              const emoji = document.createElement("span");
+              emoji.className = "qr-emoji";
+              emoji.textContent = "🏸";
+              Object.assign(emoji.style, position, {
+                transform: `rotate(${position.rotate})`,
+              });
+              qrCard.appendChild(emoji);
+            });
           qrCard.appendChild(qrBox);
           const content = clone.querySelector(".content");
           if (content) {
