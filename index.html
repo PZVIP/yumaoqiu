@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>羽毛球活动收款</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="phone-shell">
+    <section class="receipt" id="capture">
+      <h1 class="title"><span aria-hidden="true">🏸</span>董老师羽毛球俱乐部</h1>
+
+      <div class="amount-box">
+        <span>每人应付：</span><strong id="perPay">¥0</strong>
+      </div>
+
+      <label class="half-row">
+        <input id="girlsHalf" type="checkbox" checked />
+        <span>女生球费减半</span>
+      </label>
+
+      <select id="splitMode" aria-label="默认分摊模式" class="mode-select">
+        <option value="all-half">全场AA 女球减半</option>
+        <option value="all">全场AA</option>
+      </select>
+
+      <section class="entry">
+        <h2>🏟️ 场地：</h2>
+        <p><input id="hours" inputmode="decimal" /> 小时场地 ，<input id="courtPrice" inputmode="decimal" /> 元/小时</p>
+      </section>
+
+      <section class="entry">
+        <h2>🏸 球费：</h2>
+        <p><input id="ballPrice" inputmode="decimal" /> 元/桶，用了 <input id="balls" inputmode="decimal" /> 个</p>
+      </section>
+
+      <section class="entry">
+        <h2>👥 人数：</h2>
+        <p>男生：<input id="boys" inputmode="numeric" /> 人 ，女生：<input id="girls" inputmode="numeric" /> 人</p>
+      </section>
+
+      <section class="result-card">
+        <div class="result-icon" aria-hidden="true">🏟️</div>
+        <div class="result-lines">
+          <p>场地费：<b id="courtTotal">0</b> 元，人均 <b id="courtAvg">0</b> 元</p>
+          <p>球费：<b id="ballTotal">0</b> 元，人均 <b id="ballAvg">0</b> 元</p>
+        </div>
+      </section>
+
+      <section class="total-row">
+        <span>总计：</span>
+        <strong id="grandTotal">0 元</strong>
+      </section>
+    </section>
+
+    <nav class="actions" aria-label="页面操作">
+      <button id="shareBtn" type="button">生成图片并分享</button>
+      <button id="settingBtn" type="button">设置默认参数</button>
+    </nav>
+  </main>
+
+  <section id="preview" class="overlay hidden" aria-hidden="true">
+    <div class="preview-panel">
+      <button id="closePreview" type="button" class="plain-button">关闭预览</button>
+      <div id="imageCopy" class="preview-copy"></div>
+      <p>长按图片保存或转发</p>
+    </div>
+  </section>
+
+  <section id="settings" class="overlay hidden" aria-hidden="true">
+    <form class="settings-card" id="settingsForm">
+      <header>
+        <h2>设置默认参数</h2>
+        <button id="closeSettings" type="button" class="x-button">×</button>
+      </header>
+
+      <label>默认标题<input id="defaultTitle" value="董老师羽毛球俱乐部" /></label>
+      <label>默认分摊模式
+        <select id="defaultMode">
+          <option value="all-half">全场 AA 女球减半</option>
+          <option value="all">全场 AA</option>
+        </select>
+      </label>
+
+      <div class="settings-grid">
+        <label>默认小时数<input id="setHours" /></label><span>小时</span>
+        <label>默认场地单价<input id="setCourt" /></label><span>元/小时</span>
+        <label>默认每桶球价<input id="setBallPrice" /></label><span>元/桶</span>
+        <label>默认男生人数<input id="setBoys" /></label><span>人</span>
+        <label>默认女生人数<input id="setGirls" /></label><span>人</span>
+      </div>
+
+      <footer>
+        <button id="cancelSettings" type="button">取消</button>
+        <button type="submit">保存</button>
+      </footer>
+    </form>
+  </section>
+
+  <script src="./script.js"></script>
+</body>
+</html>
