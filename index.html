@@ -132,16 +132,20 @@
         display: none;
       }
 
-      .capture-source .summary-info-card {
-        padding-right: 96px;
-      }
-
       .capture-source .receipt-qr {
-        display: block;
+        display: none;
       }
 
       .capture-source .qr-upload-card {
         display: none;
+      }
+
+      .capture-source.with-receipt-qr .hero {
+        padding-bottom: 34px;
+      }
+
+      .capture-source.with-receipt-qr .large-receipt-qr {
+        display: block;
       }
 
       .mode-switch {
@@ -287,6 +291,18 @@
         object-fit: contain;
         transform: translateY(-50%);
         pointer-events: none;
+      }
+
+      .large-receipt-qr {
+        display: none;
+        width: 292px;
+        height: 292px;
+        margin: 18px auto 0;
+        padding: 10px;
+        border-radius: 18px;
+        background: #fff;
+        object-fit: contain;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
       }
 
       .qr-upload-card {
@@ -563,6 +579,26 @@
         padding: 2px 0 0;
         display: grid;
         gap: 10px;
+      }
+
+      .qr-generate-option {
+        min-height: 44px;
+        padding: 0 14px;
+        border: 1px solid #dfe4e8;
+        border-radius: 16px;
+        background: #fff;
+        color: #4f5963;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .qr-generate-option input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--wechat);
       }
 
       .settings-btn {
@@ -873,21 +909,6 @@
                 <div class="summary-icon-box">🏸</div>
                 <span id="ballSummaryText">球费：0 元，人均 0 元</span>
               </div>
-              <div class="qr-upload-card" id="qrUploadCard">
-                <div class="qr-preview" aria-hidden="true">
-                  <img id="qrPreviewImage" alt="" />
-                  <span>码</span>
-                </div>
-                <div class="qr-upload-info">
-                  <div class="qr-upload-title">收款二维码上传</div>
-                  <div class="qr-upload-status" id="qrUploadStatus">未上传时，生成图片沿用默认二维码</div>
-                  <div class="qr-upload-actions">
-                    <label class="qr-upload-btn" for="qrFileInput">上传收款码</label>
-                    <button class="qr-clear-btn" id="qrClearBtn" type="button">移除</button>
-                  </div>
-                </div>
-                <input class="qr-file-input" id="qrFileInput" type="file" accept="image/*" />
-              </div>
               <img class="receipt-qr" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAYAAADrB2wZAAAGwklEQVR4nO3dwXHjOBBAUXprnJJScYxORVFtAl7PAYvqD/K965QoivT8wqEL+Pj8/roAiv6ZvgGA/yJQQJZAAVkCBWQJFJAlUECWQAFZAgVkCRSQJVBAlkABWQIFZAkUkCVQQJZAAVl//odrvK57e2/+/avX/9vn63Y/v9Xv3/1+nv7/51dWUECWQAFZAgVkCRSQJVBAlkABWQIF3HoO6jp8Tuf0OZzd1z99zmf6+1e9r7atz9cKCsgSKCBLoIAsgQKyBArIEiggS6CAR89BTc+pvA+//9U5pOnfX5/jOX2O6rX5+qPvzwoKyBIoIEuggCyBArIECsgSKCBLoICswhzU6ab3a1q9/hX//t33V9/P6tGsoIAsgQKyBArIEiggS6CALIECsgQKyDIHte70OaPd5+LVz927+35WR7OCArIECsgSKCBLoIAsgQKyBArIEiggqzAHdfqcyd33E6rvd1V/f7t/3/u6MSsoIEuggCyBArIECsgSKCBLoIAsgQIePQd1+hzQNbyf0fS5b/XPX/H7X/W6HswKCsgSKCBLoIAsgQKyBArIEiggS6CAW89B3Xo/mgOcfm7c9OdP//23ZgUFZAkUkCVQQJZAAVkCBWQJFJAlUEBW4Vy83XafazY9h3P6fkjTc0D1/Z7eN//8r6yggCyBArIECsgSKCBLoIAsgQKyBAq49RzU3edgruE5mdU5lOk5p9PnwFbVn/97+PO/soICsgQKyBIoIEuggCyBArIECsgSKCCrsB/U9Llju7//6DmUwLl7q6bf727vw+eofmUFBWQJFJAlUECWQAFZAgVkCRSQJVDAreeg6vspTc9Z3X2/o+vwc9mm56Sm55Rei5/fygoKyBIoIEuggCyBArIECsgSKCBLoICsj8/vr9VrTM9R1Od8djv9+dfv73r4nNro358VFJAlUECWQAFZAgVkCRSQJVBAlkABj94Panq/nt1zQrvvb9X086ufm3cdfi7h6vObnqP7lRUUkCVQQJZAAVkCBWQJFJAlUECWQAG3noOqz9lMz0nd3fSc1PQc23X4uYrp52MFBWQJFJAlUECWQAFZAgVkCRSQJVDArc/Fuw6fQzn9/qf3S5qeU/sbz3+Wc/GAexIoIEuggCyBArIECsgSKCBLoIBb7wd13fxcuun9et7xOZi7n3tXnwN7XWum/35+ZQUFZAkUkCVQQJZAAVkCBWQJFJAlUMCjz8Xb/fnpOadpr5vP+UzP6Uz/fV7xc/u2Pn8rKCBLoIAsgQKyBArIEiggS6CALIECHr0f1PQcy+nfX58zmn6+q6bnkKb3g7rKc4JWUECWQAFZAgVkCRSQJVBAlkABWQIFZBXOxTt9P53pOabp/biebnrO7LrznJQVFJAlUECWQAFZAgVkCRSQJVBAlkABj56DWlWfE5k+l2y3+hxN/fnX59Tei99vDgp4JoECsgQKyBIoIEuggCyBArIECsg6YQ7q2jynMX2u293nsHbPEdXf3/T9rXIuHsBPBArIEiggS6CALIECsgQKyBIo4NFzULvnKHbvtzO9H1B9jmj6+UzPIe2eE3tds+wHBfATgQKyBArIEiggS6CALIECsgQKyCrsB1Xfr8f129dfdfffd/T9W0EBWQIFZAkUkCVQQJZAAVkCBWQJFPDoOajp/Wx273c0vZ/P9H5I07/vOny/qmnvv/y7/aAAfiJQQJZAAVkCBWQJFJAlUECWQAFZH5/fX9P3cLrT91M6fc5oVf39nP7+lq5vBQVkCRSQJVBAlkABWQIFZAkUkCVQwK33g5qeY9ltdT+o3d+/292/f/rvd/cc1Xvx8/aDAviJQAFZAgVkCRSQJVBAlkABWQIFPPpcvOk5mtPPPavPsUzPEZ1+f3ef81piBQVkCRSQJVBAlkABWQIFZAkUkCVQwKPnoE6fI9p9/ek5ldU5qffN57BWf9/0+53+fc7FA+5JoIAsgQKyBArIEiggS6CALIECsgpzUHe3OidSn/NZNT0ntHuOq/7+X4ufdy4e8EwCBWQJFJAlUECWQAFZAgVkCRSQZQ6qb/rctPp+TVd8Tmn1+b0Xv3/39e0HBTyTQAFZAgVkCRSQJVBAlkABWQIFZP15wJzPtN1zRLvnbE6fo7r7nNI7/nyWWEEBWQIFZAkUkCVQQJZAAVkCBWQJFPDoOajp/YCmrc6ZTO9HdPe/j+lzB6e9y39fVlBAlkABWQIFZAkUkCVQQJZAAVkCBWR9fH5/Td8DwI+soIAsgQKyBArIEiggS6CALIECsgQKyBIoIEuggCyBArIECsgSKCBLoIAsgQKyBAq4qv4F3IYARHIPlb0AAAAASUVORK5CYII=" />
               <div class="summary-bg-decor">🏸</div>
             </div>
@@ -902,6 +923,10 @@
         </section>
 
         <section class="generate-action">
+          <label class="qr-generate-option">
+            <input id="includeQrInImage" type="checkbox" />
+            <span>生成带有收款二维码的图片</span>
+          </label>
           <button class="generate-btn" id="generateImageBtn" type="button">生成图片并分享</button>
           <button class="settings-btn" id="openSettingsBtn" type="button">设置默认参数</button>
         </section>
@@ -969,6 +994,21 @@
               <span>人</span>
             </span>
           </label>
+          <div class="qr-upload-card" id="qrUploadCard">
+            <div class="qr-preview" aria-hidden="true">
+              <img id="qrPreviewImage" alt="" />
+              <span>码</span>
+            </div>
+            <div class="qr-upload-info">
+              <div class="qr-upload-title">收款二维码上传</div>
+              <div class="qr-upload-status" id="qrUploadStatus">上传后会缓存在当前浏览器</div>
+              <div class="qr-upload-actions">
+                <label class="qr-upload-btn" for="qrFileInput">上传收款码</label>
+                <button class="qr-clear-btn" id="qrClearBtn" type="button">移除</button>
+              </div>
+            </div>
+            <input class="qr-file-input" id="qrFileInput" type="file" accept="image/*" />
+          </div>
         </div>
         <div class="settings-actions">
           <button class="settings-cancel" id="cancelSettingsBtn" type="button">取消</button>
@@ -1026,6 +1066,7 @@
       const imagePreview = document.getElementById("imagePreview");
       const closePreviewBtn = document.getElementById("closePreviewBtn");
       const generatedImage = document.getElementById("generatedImage");
+      const includeQrInImage = document.getElementById("includeQrInImage");
       const qrUploadCard = document.getElementById("qrUploadCard");
       const qrFileInput = document.getElementById("qrFileInput");
       const qrPreviewImage = document.getElementById("qrPreviewImage");
@@ -1138,11 +1179,11 @@
         if (uploadedQrDataUrl) {
           qrPreviewImage.src = uploadedQrDataUrl;
           qrUploadCard.classList.add("has-image");
-          qrUploadStatus.textContent = "已上传，生成图片会使用这个收款码";
+          qrUploadStatus.textContent = "已上传，勾选生成带二维码图片时会使用这个收款码";
         } else {
           qrPreviewImage.removeAttribute("src");
           qrUploadCard.classList.remove("has-image");
-          qrUploadStatus.textContent = "未上传时，生成图片沿用默认二维码";
+          qrUploadStatus.textContent = "未上传时，勾选后会使用默认二维码";
         }
       }
 
@@ -1369,8 +1410,16 @@
         if (uploadCard) uploadCard.style.display = "none";
 
         const receiptQr = clone.querySelector(".receipt-qr");
-        if (receiptQr && uploadedQrDataUrl) {
-          receiptQr.src = uploadedQrDataUrl;
+        const shouldIncludeQr = includeQrInImage.checked;
+        if (receiptQr && shouldIncludeQr) {
+          receiptQr.src = uploadedQrDataUrl || receiptQr.src;
+          const largeQr = receiptQr.cloneNode(true);
+          largeQr.className = "large-receipt-qr";
+          const amountTip = clone.querySelector("#amountTip");
+          if (amountTip) {
+            amountTip.insertAdjacentElement("afterend", largeQr);
+            clone.classList.add("with-receipt-qr");
+          }
         }
 
         clone.querySelectorAll("input").forEach((input) => {
