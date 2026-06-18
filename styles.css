@@ -1,0 +1,290 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f7f7f7;
+  color: #2f3136;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.phone-shell {
+  width: min(100%, 430px);
+  margin: 0 auto;
+  padding: 18px 14px 28px;
+}
+
+.receipt {
+  overflow: hidden;
+  padding: 28px 22px 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgb(0 0 0 / 8%);
+}
+
+.title {
+  margin: 0 0 22px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.title span {
+  margin-right: 4px;
+}
+
+.amount-box {
+  margin: 0 auto 18px;
+  padding: 17px 12px;
+  text-align: center;
+  color: #6b4a00;
+  background: #fff8df;
+  border: 1px solid #ffe49b;
+  border-radius: 14px;
+  font-size: 18px;
+}
+
+.amount-box strong {
+  color: #f5a400;
+  font-size: 34px;
+  font-weight: 800;
+  vertical-align: middle;
+}
+
+.half-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 14px;
+  color: #4a5568;
+  font-size: 16px;
+}
+
+.half-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: #f4b000;
+}
+
+.mode-select,
+.entry input,
+.settings-card input,
+.settings-card select {
+  border: 1px solid #f2d16b;
+  border-radius: 8px;
+  background: #fffdf3;
+  color: #2d3748;
+  font: inherit;
+}
+
+.mode-select {
+  display: block;
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 11px 12px;
+}
+
+.entry {
+  padding: 12px 0 13px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.entry h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.entry p {
+  margin: 0;
+  color: #4a5568;
+  font-size: 16px;
+  line-height: 2.7;
+}
+
+.entry input {
+  width: 76px;
+  height: 38px;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.result-card {
+  display: flex;
+  gap: 10px;
+  margin: 7px 0 16px;
+  padding: 14px 13px;
+  background: #fbfbfb;
+  border-radius: 12px;
+}
+
+.result-icon {
+  padding-top: 4px;
+  font-size: 20px;
+}
+
+.result-lines p {
+  margin: 0;
+  color: #4a5568;
+  font-size: 16px;
+  line-height: 1.95;
+}
+
+.result-lines b {
+  color: #222222;
+}
+
+.total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 2px;
+  color: #333333;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.total-row strong {
+  color: #f0a000;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.actions button,
+.settings-card footer button,
+.plain-button {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.actions button {
+  flex: 1;
+  color: #ffffff;
+  background: #f5a400;
+}
+
+.actions button + button {
+  color: #8a6500;
+  background: #fff3c4;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgb(0 0 0 / 45%);
+}
+
+.hidden {
+  display: none;
+}
+
+.preview-panel,
+.settings-card {
+  width: min(100%, 430px);
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  padding: 18px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgb(0 0 0 / 24%);
+}
+
+.plain-button {
+  float: right;
+  color: #ffffff;
+  background: #333333;
+}
+
+.preview-copy {
+  clear: both;
+  padding-top: 50px;
+}
+
+.preview-panel p {
+  margin: 14px 0 0;
+  text-align: center;
+  color: #666666;
+}
+
+.settings-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.settings-card h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.x-button {
+  border: 0;
+  background: transparent;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.settings-card label {
+  display: block;
+  margin: 10px 0;
+  color: #4a5568;
+  font-size: 15px;
+}
+
+.settings-card input,
+.settings-card select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  gap: 8px 10px;
+  align-items: end;
+}
+
+.settings-grid span {
+  padding-bottom: 11px;
+  color: #666666;
+}
+
+.settings-card footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.settings-card footer button:first-child {
+  color: #333333;
+  background: #eeeeee;
+}
+
+.settings-card footer button:last-child {
+  color: #ffffff;
+  background: #f5a400;
+}
