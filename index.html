@@ -1016,12 +1016,6 @@
             </div>
           </div>
           <label class="settings-row">
-            <span>默认勾选收款码</span>
-            <span class="settings-input-wrap">
-              <input id="defaultIncludeQr" type="checkbox" />
-            </span>
-          </label>
-          <label class="settings-row">
             <span>默认小时数</span>
             <span class="settings-input-wrap">
               <input class="settings-input" id="defaultCourtCount" type="number" min="0" max="999" step="1" />
@@ -1042,20 +1036,6 @@
               <span>元/桶</span>
             </span>
           </label>
-          <label class="settings-row">
-            <span>默认男生人数</span>
-            <span class="settings-input-wrap">
-              <input class="settings-input" id="defaultMaleCount" type="number" min="0" max="999" step="1" />
-              <span>人</span>
-            </span>
-          </label>
-          <label class="settings-row">
-            <span>默认女生人数</span>
-            <span class="settings-input-wrap">
-              <input class="settings-input" id="defaultFemaleCount" type="number" min="0" max="999" step="1" />
-              <span>人</span>
-            </span>
-          </label>
           <div class="qr-upload-card" id="qrUploadCard">
             <div class="qr-preview" aria-hidden="true">
               <img id="qrPreviewImage" alt="" />
@@ -1071,6 +1051,12 @@
             </div>
             <input class="qr-file-input" id="qrFileInput" type="file" accept="image/*" />
           </div>
+          <label class="settings-row">
+            <span>默认勾选收款码</span>
+            <span class="settings-input-wrap">
+              <input id="defaultIncludeQr" type="checkbox" />
+            </span>
+          </label>
         </div>
         <div class="settings-actions">
           <button class="settings-cancel" id="cancelSettingsBtn" type="button">取消</button>
@@ -1144,8 +1130,6 @@
         courtCount: document.getElementById("defaultCourtCount"),
         hourlyPrice: document.getElementById("defaultHourlyPrice"),
         tubePrice: document.getElementById("defaultTubePrice"),
-        maleCount: document.getElementById("defaultMaleCount"),
-        femaleCount: document.getElementById("defaultFemaleCount"),
         includeQr: document.getElementById("defaultIncludeQr"),
       };
       const defaultModeButtons = {
@@ -1206,8 +1190,6 @@
             courtCount: validDefaultValue(parsed.courtCount),
             hourlyPrice: validDefaultValue(parsed.hourlyPrice),
             tubePrice: validDefaultValue(parsed.tubePrice),
-            maleCount: validDefaultValue(parsed.maleCount),
-            femaleCount: validDefaultValue(parsed.femaleCount),
             splitMode: validSplitMode(parsed.splitMode),
             includeQr: parsed.includeQr === true,
           };
@@ -1273,7 +1255,7 @@
         fields.clubTitle.textContent = defaults.clubTitle || originalClubTitle;
         includeQrInImage.checked = defaults.includeQr === true;
 
-        ["courtCount", "hourlyPrice", "tubePrice", "maleCount", "femaleCount"].forEach((key) => {
+        ["courtCount", "hourlyPrice", "tubePrice"].forEach((key) => {
           if (defaults[key] !== undefined) {
             fields[key].value = valueForPage(defaults[key]);
           }
@@ -1285,8 +1267,6 @@
         defaultFields.courtCount.value = fields.courtCount.value;
         defaultFields.hourlyPrice.value = fields.hourlyPrice.value;
         defaultFields.tubePrice.value = fields.tubePrice.value;
-        defaultFields.maleCount.value = fields.maleCount.value;
-        defaultFields.femaleCount.value = fields.femaleCount.value;
         defaultFields.includeQr.checked = includeQrInImage.checked;
         defaultModeButtons.equal.classList.toggle("active", defaultSplitMode === "equal");
         defaultModeButtons.half.classList.toggle("active", defaultSplitMode === "half");
@@ -1315,13 +1295,11 @@
           courtCount: validDefaultValue(defaultFields.courtCount.value),
           hourlyPrice: validDefaultValue(defaultFields.hourlyPrice.value),
           tubePrice: validDefaultValue(defaultFields.tubePrice.value),
-          maleCount: validDefaultValue(defaultFields.maleCount.value),
-          femaleCount: validDefaultValue(defaultFields.femaleCount.value),
           splitMode: defaultSplitMode,
           includeQr: defaultFields.includeQr.checked,
         };
 
-        const hasInvalidValue = ["courtCount", "hourlyPrice", "tubePrice", "maleCount", "femaleCount"].some((key) => {
+        const hasInvalidValue = ["courtCount", "hourlyPrice", "tubePrice"].some((key) => {
           const rawValue = defaultFields[key].value;
           return rawValue !== "" && defaults[key] === "";
         });
@@ -1336,8 +1314,6 @@
         fields.courtCount.value = valueForPage(defaults.courtCount);
         fields.hourlyPrice.value = valueForPage(defaults.hourlyPrice);
         fields.tubePrice.value = valueForPage(defaults.tubePrice);
-        fields.maleCount.value = valueForPage(defaults.maleCount);
-        fields.femaleCount.value = valueForPage(defaults.femaleCount);
         includeQrInImage.checked = defaults.includeQr;
         calculate();
         closeSettings();
