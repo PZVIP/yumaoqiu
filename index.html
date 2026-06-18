@@ -306,7 +306,8 @@
       }
 
       .generated-qr-box {
-        width: 66.666%;
+        width: var(--qr-image-width, 66.666%);
+        max-width: 66.666%;
         min-width: 160px;
         aspect-ratio: 825 / 880;
         margin: 0 auto;
@@ -318,7 +319,8 @@
 
       .generated-qr-box img {
         display: block;
-        width: 100%;
+        width: var(--qr-image-width, auto);
+        max-width: none;
         height: auto;
         object-fit: none;
         object-position: 0 0;
@@ -1454,24 +1456,27 @@
           qrBox.className = "generated-qr-box";
           const qrImage = receiptQr.cloneNode(true);
           qrImage.removeAttribute("class");
+          const naturalWidth = receiptQr.naturalWidth || 0;
+          if (naturalWidth) {
+            qrBox.style.setProperty("--qr-image-width", `${naturalWidth}px`);
+          }
           qrBox.appendChild(qrImage);
-          const emojiPositions = [
-            { left: "18px", top: "18px", rotate: "-22deg" },
-            { left: "34px", top: "58%", rotate: "18deg" },
-            { right: "20px", top: "30px", rotate: "26deg" },
-            { right: "36px", top: "66%", rotate: "-16deg" },
-          ];
-          emojiPositions
-            .sort(() => Math.random() - 0.5)
-            .forEach((position) => {
+          const randomBetween = (min, max) => min + Math.random() * (max - min);
+          ["left", "right"].forEach((side) => {
+            Array.from({ length: 10 }).forEach((_, index) => {
               const emoji = document.createElement("span");
               emoji.className = "qr-emoji";
               emoji.textContent = "🏸";
-              Object.assign(emoji.style, position, {
-                transform: `rotate(${position.rotate})`,
+              Object.assign(emoji.style, {
+                [side]: `${randomBetween(8, 52)}px`,
+                top: `${8 + index * 8.8 + randomBetween(-2, 2)}%`,
+                fontSize: `${randomBetween(14, 23)}px`,
+                opacity: String(randomBetween(0.45, 0.78)),
+                transform: `rotate(${randomBetween(-35, 35)}deg)`,
               });
               qrCard.appendChild(emoji);
             });
+          });
           qrCard.appendChild(qrBox);
           const content = clone.querySelector(".content");
           if (content) {
