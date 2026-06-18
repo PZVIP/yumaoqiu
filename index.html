@@ -140,6 +140,10 @@
         display: block;
       }
 
+      .capture-source .qr-upload-card {
+        display: none;
+      }
+
       .mode-switch {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -282,6 +286,108 @@
         opacity: 1;
         object-fit: contain;
         transform: translateY(-50%);
+        pointer-events: none;
+      }
+
+      .qr-upload-card {
+        margin-top: 12px;
+        padding: 12px;
+        border: 1px dashed #cfd8d3;
+        border-radius: 18px;
+        background: #f9fbfa;
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 12px;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .qr-preview {
+        width: 58px;
+        height: 58px;
+        border-radius: 12px;
+        border: 1px solid #e5e9e7;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        color: var(--wechat);
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .qr-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: none;
+      }
+
+      .qr-upload-card.has-image .qr-preview img {
+        display: block;
+      }
+
+      .qr-upload-card.has-image .qr-preview span {
+        display: none;
+      }
+
+      .qr-upload-info {
+        min-width: 0;
+        display: grid;
+        gap: 7px;
+      }
+
+      .qr-upload-title {
+        color: var(--text);
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .qr-upload-status {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .qr-upload-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .qr-upload-btn,
+      .qr-clear-btn {
+        min-height: 30px;
+        border-radius: 999px;
+        padding: 0 12px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .qr-upload-btn {
+        border: 0;
+        background: var(--wechat);
+        color: #fff;
+      }
+
+      .qr-clear-btn {
+        border: 1px solid #dfe4e8;
+        background: #fff;
+        color: #5f6870;
+        display: none;
+      }
+
+      .qr-upload-card.has-image .qr-clear-btn {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .qr-file-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
         pointer-events: none;
       }
 
@@ -767,6 +873,21 @@
                 <div class="summary-icon-box">🏸</div>
                 <span id="ballSummaryText">球费：0 元，人均 0 元</span>
               </div>
+              <div class="qr-upload-card" id="qrUploadCard">
+                <div class="qr-preview" aria-hidden="true">
+                  <img id="qrPreviewImage" alt="" />
+                  <span>码</span>
+                </div>
+                <div class="qr-upload-info">
+                  <div class="qr-upload-title">收款二维码上传</div>
+                  <div class="qr-upload-status" id="qrUploadStatus">未上传时，生成图片沿用默认二维码</div>
+                  <div class="qr-upload-actions">
+                    <label class="qr-upload-btn" for="qrFileInput">上传收款码</label>
+                    <button class="qr-clear-btn" id="qrClearBtn" type="button">移除</button>
+                  </div>
+                </div>
+                <input class="qr-file-input" id="qrFileInput" type="file" accept="image/*" />
+              </div>
               <img class="receipt-qr" alt="" src="data:image/png;base64,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" />
               <div class="summary-bg-decor">🏸</div>
             </div>
@@ -905,6 +1026,11 @@
       const imagePreview = document.getElementById("imagePreview");
       const closePreviewBtn = document.getElementById("closePreviewBtn");
       const generatedImage = document.getElementById("generatedImage");
+      const qrUploadCard = document.getElementById("qrUploadCard");
+      const qrFileInput = document.getElementById("qrFileInput");
+      const qrPreviewImage = document.getElementById("qrPreviewImage");
+      const qrUploadStatus = document.getElementById("qrUploadStatus");
+      const qrClearBtn = document.getElementById("qrClearBtn");
       const openSettingsBtn = document.getElementById("openSettingsBtn");
       const settingsPanel = document.getElementById("settingsPanel");
       const closeSettingsBtn = document.getElementById("closeSettingsBtn");
@@ -925,6 +1051,7 @@
 
       let splitMode = "half";
       let defaultSplitMode = "half";
+      let uploadedQrDataUrl = "";
       const defaultStorageKey = "badmintonReceiptDefaults";
       const originalClubTitle = fields.clubTitle.textContent;
 
@@ -1130,6 +1257,41 @@
         calculate();
       }
 
+      function readFileAsDataUrl(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result || ""));
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function handleQrUpload(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+          alert("请选择图片格式的收款码");
+          qrFileInput.value = "";
+          return;
+        }
+
+        uploadedQrDataUrl = await readFileAsDataUrl(file);
+        qrPreviewImage.src = uploadedQrDataUrl;
+        qrUploadCard.classList.add("has-image");
+        qrUploadStatus.textContent = "已上传，生成图片会使用这个收款码";
+        if (typeof handleResize === 'function') handleResize();
+      }
+
+      function clearUploadedQr() {
+        uploadedQrDataUrl = "";
+        qrPreviewImage.removeAttribute("src");
+        qrFileInput.value = "";
+        qrUploadCard.classList.remove("has-image");
+        qrUploadStatus.textContent = "未上传时，生成图片沿用默认二维码";
+        if (typeof handleResize === 'function') handleResize();
+      }
+
       Object.values(fields).forEach((field) => {
         field.addEventListener("input", calculate);
       });
@@ -1140,6 +1302,8 @@
       closeSettingsBtn.addEventListener("click", closeSettings);
       cancelSettingsBtn.addEventListener("click", closeSettings);
       saveSettingsBtn.addEventListener("click", handleSaveSettings);
+      qrFileInput.addEventListener("change", handleQrUpload);
+      qrClearBtn.addEventListener("click", clearUploadedQr);
       defaultModeButtons.equal.addEventListener("click", () => setDefaultMode("equal"));
       defaultModeButtons.half.addEventListener("click", () => setDefaultMode("half"));
       settingsPanel.addEventListener("click", (event) => {
@@ -1166,6 +1330,14 @@
         
         const modeSwitch = clone.querySelector(".mode-switch");
         if (modeSwitch) modeSwitch.style.display = "none";
+
+        const uploadCard = clone.querySelector(".qr-upload-card");
+        if (uploadCard) uploadCard.style.display = "none";
+
+        const receiptQr = clone.querySelector(".receipt-qr");
+        if (receiptQr && uploadedQrDataUrl) {
+          receiptQr.src = uploadedQrDataUrl;
+        }
 
         clone.querySelectorAll("input").forEach((input) => {
           // 获取原始输入框的显示状态
