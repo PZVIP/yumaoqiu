@@ -365,6 +365,7 @@
       }
 
       .qr-preview {
+        position: relative;
         width: 58px;
         height: 58px;
         border-radius: 12px;
@@ -379,10 +380,20 @@
       }
 
       .qr-preview img {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
         object-fit: contain;
         display: none;
+      }
+
+      .qr-preview span {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        line-height: 1;
       }
 
       .qr-upload-card.has-image .qr-preview img {
@@ -1581,6 +1592,10 @@
 
 
       generateImageBtn.addEventListener("click", async () => {
+        if (includeQrInImage.checked && !uploadedQrDataUrl) {
+          alert("请在默认参数里面上传二维码");
+          return;
+        }
         generateImageBtn.disabled = true;
         generateImageBtn.textContent = "生成中...";
         try {
