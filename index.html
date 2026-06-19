@@ -809,6 +809,35 @@
         white-space: nowrap;
       }
 
+      #defaultIncludeQr {
+        width: 40px;
+        height: 40px;
+        margin: 0;
+        border: 2px solid #ff9c9c;
+        border-radius: 10px;
+        background: #fff2f2;
+        display: grid;
+        place-items: center;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+      }
+
+      #defaultIncludeQr::after {
+        content: "❌";
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      #defaultIncludeQr:checked {
+        border-color: var(--wechat);
+        background: #e9f8ef;
+      }
+
+      #defaultIncludeQr:checked::after {
+        content: "✅";
+      }
+
       .settings-input {
         width: 72px;
         height: 36px;
@@ -981,7 +1010,7 @@
         <section class="generate-action">
           <label class="qr-generate-option">
             <input id="includeQrInImage" type="checkbox" />
-            <span>收款码（请先设置收款码）</span>
+            <span>带收款码版（设置里，先上传二维码）</span>
           </label>
           <button class="generate-btn" id="generateImageBtn" type="button">生成图片并分享</button>
           <button class="settings-btn" id="openSettingsBtn" type="button">设置默认参数</button>
@@ -1036,6 +1065,12 @@
               <span>元/桶</span>
             </span>
           </label>
+          <label class="settings-row">
+            <span>默认勾选收款码</span>
+            <span class="settings-input-wrap">
+              <input id="defaultIncludeQr" type="checkbox" />
+            </span>
+          </label>
           <div class="qr-upload-card" id="qrUploadCard">
             <div class="qr-preview" aria-hidden="true">
               <img id="qrPreviewImage" alt="" />
@@ -1051,12 +1086,6 @@
             </div>
             <input class="qr-file-input" id="qrFileInput" type="file" accept="image/*" />
           </div>
-          <label class="settings-row">
-            <span>默认勾选收款码</span>
-            <span class="settings-input-wrap">
-              <input id="defaultIncludeQr" type="checkbox" />
-            </span>
-          </label>
         </div>
         <div class="settings-actions">
           <button class="settings-cancel" id="cancelSettingsBtn" type="button">取消</button>
