@@ -652,9 +652,28 @@
       }
 
       .qr-generate-option input {
-        width: 18px;
-        height: 18px;
-        accent-color: var(--wechat);
+        width: 27px;
+        height: 27px;
+        margin: 0;
+        border: 2px solid #aeb7b2;
+        border-radius: 7px;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        appearance: none;
+        -webkit-appearance: none;
+        flex: 0 0 auto;
+      }
+
+      .qr-generate-option input:checked {
+        border-color: var(--wechat);
+        background: #e9f8ef;
+      }
+
+      .qr-generate-option input:checked::after {
+        content: "✅";
+        font-size: 17px;
+        line-height: 1;
       }
 
       .settings-btn {
